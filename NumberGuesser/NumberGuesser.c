@@ -12,5 +12,11 @@ int main () {
     printf("Guess a number: ");
     scanf("%d", &guess);
     printf("\nYour guess was %d", guess);
+
+    if(guess == secretNumber) {
+        printf("\nCongratulations! You found the secret number!");
+    } else {
+        printf("\nSorry! Wrong number! Don't give up! Try again!");
+    }
 }
 
