@@ -6,17 +6,22 @@ int main () {
     printf("*****************************\n");
 
     int secretNumber = 42;
-
     int guess;
 
     printf("Guess a number: ");
     scanf("%d", &guess);
     printf("\nYour guess was %d", guess);
 
-    if(guess == secretNumber) {
+    int success = (guess == secretNumber);
+
+    if(success) {
         printf("\nCongratulations! You found the secret number!");
     } else {
-        printf("\nSorry! Wrong number! Don't give up! Try again!");
+        if (guess > secretNumber){
+            printf("\nYour pick is higher than the secret number, try again!");
+        } else {
+            printf("\nYour pick is lower than the secret number, try again!");
+        }
     }
 }
 
