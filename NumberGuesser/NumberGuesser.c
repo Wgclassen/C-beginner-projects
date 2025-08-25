@@ -9,6 +9,7 @@ int main()
     int secretNumber = 42;
     int guess;
     int guessNumber = 0;
+    double score = 1000.0;
 
     while (1)
     {
@@ -31,6 +32,7 @@ int main()
         if (success)
         {
             printf("\nCongratulations! You found the secret number in %d guesses!", guessNumber);
+            printf("\nYour final score was %f.", score);
             break;
         }
         else if (higher)
@@ -41,5 +43,6 @@ int main()
         {
             printf("\nYour pick is lower than the secret number, try again!");
         }
+        score = score - ((guess - secretNumber)/2.0);
     }
 }
