@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+void title();
+void guess(int tries, char maxAttempts[26]);
+
 int main()
 {
     char secretWord[20];
@@ -11,6 +14,8 @@ int main()
     int hanged = 0;
     char maxAttempts[26];
     int tries = 0;
+
+    title();
 
     do
     {
@@ -38,11 +43,23 @@ int main()
         }
         printf("\n");
 
-        char guess;
-        scanf(" %c", &guess);
-
-        maxAttempts[tries] = guess;
-        tries++;
+      guess(tries, maxAttempts);
+      tries++;
 
     } while (!success && !hanged);
+}
+
+void title()
+{
+    printf("*****************\n");
+    printf("*    Hangman    *\n");
+    printf("*****************\n\n");
+}
+
+void guess(int tries, char maxAttempts[26])
+{
+    char guess;
+    scanf(" %c", &guess);
+
+    maxAttempts[tries] = guess;
 }
