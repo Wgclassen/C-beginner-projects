@@ -2,7 +2,7 @@
 #include <string.h>
 
 void title();
-void guess(int tries, char maxAttempts[26]);
+void guess(int* tries, char maxAttempts[26]);
 
 int main()
 {
@@ -43,8 +43,8 @@ int main()
         }
         printf("\n");
 
-      guess(tries, maxAttempts);
-      tries++;
+      guess(&tries, maxAttempts);
+      
 
     } while (!success && !hanged);
 }
@@ -56,10 +56,11 @@ void title()
     printf("*****************\n\n");
 }
 
-void guess(int tries, char maxAttempts[26])
+void guess(int* tries, char maxAttempts[26])
 {
     char guess;
     scanf(" %c", &guess);
 
-    maxAttempts[tries] = guess;
+    maxAttempts[(*tries)] = guess;
+    (*tries)++;
 }
