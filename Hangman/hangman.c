@@ -3,6 +3,7 @@
 
 void title();
 void guess(int* tries, char maxAttempts[26]);
+int alreadyGuessed(char letter, char guesses[26], int tries);
 
 int main()
 {
@@ -21,16 +22,7 @@ int main()
     {
         for (int i = 0; i < strlen(secretWord); i++)
         {
-            int found = 0;
-
-            for (int j = 0; j < tries; j++)
-            {
-                if (maxAttempts[j] == secretWord[i])
-                {
-                    found = 1;
-                    break;
-                }
-            }
+            int found = alreadyGuessed(secretWord[i], maxAttempts, tries);
 
             if (found)
             {
@@ -63,4 +55,18 @@ void guess(int* tries, char maxAttempts[26])
 
     maxAttempts[(*tries)] = guess;
     (*tries)++;
+}
+
+int alreadyGuessed(char letter, char guesses[26], int tries)
+{
+    int found = 0;
+    for (int j = 0; j < tries; j++)
+    {
+        if (guesses[j] == letter)
+        {
+            found = 1;
+            break;
+        }
+    }
+    return found;
 }
