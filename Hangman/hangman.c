@@ -8,6 +8,8 @@ int attempts = 0;
 void title();
 void guess();
 int alreadyGuessed(char letter);
+int hanged();
+int victory();
 void drawGallows();
 void pickWord()
 {
@@ -16,8 +18,7 @@ void pickWord()
 
 int main()
 {
-    int success = 0;
-    int hanged = 0;
+    
 
     pickWord();
     title();
@@ -26,7 +27,7 @@ int main()
     {
         drawGallows();
         guess();
-    } while (!success && !hanged);
+    } while (!victory() &&!hanged());
 }
 
 void title()
@@ -74,4 +75,34 @@ void drawGallows()
         }
     }
     printf("\n");
+}
+
+int hanged()
+{
+    int mistakes = 0;
+    for (int i = 0; i < attempts; i++)
+    {
+        int exists = 0;
+
+        for (int j = 0; j < strlen(secretWord); j++)
+        {
+            if (guesses[i] == secretWord[j])
+            {
+                exists = 1;
+                break;
+            }
+        }
+        if (!exists)
+            mistakes++;
+    }
+    return mistakes >= 5;
+}
+
+int victory() {
+    for(int i = 0; i < strlen(secretWord); i++) {
+        if(!alreadyGuessed(secretWord[i])) {
+            return 0;
+        }
+    }
+    return 1;
 }
