@@ -1,3 +1,4 @@
-void readMap();
-void freeMap();
-void allocateMap();
+
+int gameOver();
+void move(char direction);
+

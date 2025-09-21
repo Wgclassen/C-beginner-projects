@@ -1,59 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "eatman.h"
-char **map;
+#include "map.h"
 
-int rows;
-int cols;
+MAP map;
+POSITION hero;
 
 int main()
 {
+    readMap(&map);
+    findMap(&map, &hero, '@');
 
-    readMap();
-
-    for (int i = 0; i < 5; i++)
+    do
     {
-        printf("%s\n", map[i]);
-    }
+        printMap(&map);
+        char input;
+        scanf(" %c", &input);
+        move(input);
+    } while (!gameOver());
 
-    freeMap();
+    printMap(&map);
+
+    freeMap(&map);
 }
 
-void freeMap()
+int gameOver()
 {
-    for (int i = 0; i < rows; i++)
-    {
-        free(map[i]);
-    }
-    free(map);
+    return 0;
 }
 
-void readMap()
+void move(char direction)
 {
-    FILE *f;
-    f = fopen("map.txt", "r");
-    if (f == 0)
+
+    map.matrix[hero.x][hero.y] = '.';
+
+    switch (direction)
     {
-        printf("Error when reading map\n");
-        exit(1);
-    }
-
-    fscanf(f, "%d %d", &rows, &cols);
-
-    allocateMap();
-
-    for (int i = 0; i < 5; i++)
-    {
-        fscanf(f, "%s", map[i]);
-    }
-    fclose(f);
-}
-
-void allocateMap()
-{
-    map = malloc(sizeof(char *) * rows);
-    for (int i = 0; i < rows; i++)
-    {
-        map[i] = malloc(sizeof(char) * (cols + 1));
+    case 'a':
+        map.matrix[hero.x][hero.y - 1] = '@';
+        hero.y--;
+        break;
+    case 'w':
+        map.matrix[hero.x - 1][hero.y] = '@';
+        hero.x--;
+        break;
+    case 's':
+        map.matrix[hero.x + 1][hero.y] = '@';
+        hero.x++;
+        break;
+    case 'd':
+        map.matrix[hero.x][hero.y + 1] = '@';
+        hero.y++;
+        break;
+    default:
+        break;
     }
 }
