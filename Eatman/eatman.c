@@ -31,28 +31,40 @@ int gameOver()
 
 void move(char direction)
 {
+    if (direction != 'a' &&
+        direction != 'w' &&
+        direction != 's' &&
+        direction != 'd')
+        return;
 
-    map.matrix[hero.x][hero.y] = '.';
+    int targetX = hero.x;
+    int targetY = hero.y;
 
     switch (direction)
     {
     case 'a':
-        map.matrix[hero.x][hero.y - 1] = '@';
-        hero.y--;
+        targetY--;
         break;
     case 'w':
-        map.matrix[hero.x - 1][hero.y] = '@';
-        hero.x--;
+        targetX--;
         break;
     case 's':
-        map.matrix[hero.x + 1][hero.y] = '@';
-        hero.x++;
+        targetX++;
         break;
     case 'd':
-        map.matrix[hero.x][hero.y + 1] = '@';
-        hero.y++;
+        targetY++;
         break;
     default:
         break;
     }
+
+    if (targetX >= map.rows ||
+        targetY >= map.cols ||
+        map.matrix[targetX][targetY] != '.')
+        return;
+    
+    map.matrix[targetX][targetY] = '@';
+    map.matrix[hero.x][hero.y] = '.';
+    hero.x = targetX;
+    hero.y = targetY;
 }
