@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "map.h"
 
 void readMap(MAP *map)
@@ -23,7 +24,7 @@ void readMap(MAP *map)
     fclose(f);
 }
 
-void allocateMap(MAP* map)
+void allocateMap(MAP *map)
 {
     map->matrix = malloc(sizeof(char *) * map->rows);
     for (int i = 0; i < map->rows; i++)
@@ -32,7 +33,8 @@ void allocateMap(MAP* map)
     }
 }
 
-void findMap(MAP* map, POSITION* position, char c) {
+void findMap(MAP *map, POSITION *position, char c)
+{
     for (int i = 0; i < map->rows; i++)
     {
         for (int j = 0; j < map->cols; j++)
@@ -62,4 +64,42 @@ void freeMap(MAP *map)
         free(map->matrix[i]);
     }
     free(map->matrix);
+}
+
+int isValid(MAP *map, int targetX, int targetY)
+{
+    if (targetX >= map->rows ||
+        targetY >= map->cols)
+        return 0;
+
+    return 1;
+}
+
+void copyMap(MAP *target, MAP *origin)
+{
+    target->rows = origin->rows;
+    target->cols = origin->cols;
+
+    allocateMap(target);
+    for (int i = 0; i < origin->rows; i++)
+    {
+        strcpy(target->matrix[i], origin->matrix[i]);
+    }
+}
+
+void mapMovement(MAP *map, int startingX, int startingY, int targetX, int targetY)
+{
+    char character = map->matrix[startingX][startingY];
+    map->matrix[targetX][targetY] = character;
+    map->matrix[startingX][startingY] = EMPTY;
+}
+
+int isEmpty(MAP *map, int targetX, int targetY)
+{
+    return map->matrix[targetX][targetY] == EMPTY;
+}
+
+int canMove(MAP *map, int x, int y)
+{
+    return isValid(map, x, y) && isEmpty(map, x, y);
 }
