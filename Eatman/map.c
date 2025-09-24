@@ -33,7 +33,7 @@ void allocateMap(MAP *map)
     }
 }
 
-void findMap(MAP *map, POSITION *position, char c)
+int findMap(MAP *map, POSITION *position, char c)
 {
     for (int i = 0; i < map->rows; i++)
     {
@@ -43,18 +43,11 @@ void findMap(MAP *map, POSITION *position, char c)
             {
                 position->x = i;
                 position->y = j;
-                break;
+                return 1;
             }
         }
     }
-}
-
-void printMap(MAP *map)
-{
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%s\n", map->matrix[i]);
-    }
+    return 0;
 }
 
 void freeMap(MAP *map)
@@ -94,12 +87,17 @@ void mapMovement(MAP *map, int startingX, int startingY, int targetX, int target
     map->matrix[startingX][startingY] = EMPTY;
 }
 
-int isEmpty(MAP *map, int targetX, int targetY)
+int isWall(MAP *map, int x, int y)
 {
-    return map->matrix[targetX][targetY] == EMPTY;
+    return map->matrix[x][y] == WALL_VERTICAL || map->matrix[x][y] == WALL_HORIZONTAL;
 }
 
-int canMove(MAP *map, int x, int y)
+int isCharacter(MAP *map, char character, int x, int y)
 {
-    return isValid(map, x, y) && isEmpty(map, x, y);
+    return map->matrix[x][y] == character;
+}
+
+int canMove(MAP *map, char character, int x, int y)
+{
+    return isValid(map, x, y) && !isWall(map, x, y) && !isCharacter(map, character, x, y);
 }
